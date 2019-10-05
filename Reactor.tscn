@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Core.gd" type="Script" id=1]
+[ext_resource path="res://sprites/reactor.png" type="Texture" id=2]
+[ext_resource path="res://sprites/reactorglow.png" type="Texture" id=3]
+[ext_resource path="res://ReactorGlow.gd" type="Script" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 32, 32 )
+
+[node name="Reactor" type="Area2D"]
+position = Vector2( -1.98529, -49.2498 )
+script = ExtResource( 1 )
+
+[node name="Background" type="Sprite" parent="."]
+scale = Vector2( 2, 2 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 32, 32 )
+shape = SubResource( 1 )
+
+[node name="ReactorGlow" type="Sprite" parent="."]
+scale = Vector2( 2, 2 )
+texture = ExtResource( 3 )
+centered = false
+script = ExtResource( 4 )
+
+[node name="Tween" type="Tween" parent="ReactorGlow"]
+[connection signal="tween_completed" from="ReactorGlow/Tween" to="ReactorGlow" method="_on_tween_completed"]
