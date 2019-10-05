@@ -38,7 +38,8 @@ hue_variation_random = 0.56
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 27.8271, 42.3598 )
 
-[node name="Thruster" type="Area2D"]
+[node name="Thruster" type="RigidBody2D"]
+gravity_scale = 0.0
 script = ExtResource( 1 )
 rotational_power = 500.0
 

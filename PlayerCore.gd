@@ -15,7 +15,7 @@ func _ready():
 	var storage = preload("res://Storage.tscn").instance()
 	var gun = preload("res://Gun.tscn").instance()
 	add_part(thruster, Vector2(0, 1))
-	add_part(gun, Vector2(-1, 0))
+	add_part(gun, Vector2(-1, 1))
 	add_part(thruster2, Vector2(-1, 2))
 	add_part(storage, Vector2(1, 1))
 	add_part(preload("res://Storage.tscn").instance(), Vector2(0, -2))
@@ -51,6 +51,7 @@ func add_part(part, mapCoords : Vector2) -> void:
 		
 	part.set_global_position(targetCoords)
 	mRootNode.add_child(part, true)
+	part.mode = RigidBody2D.MODE_STATIC
 	
 	# Relocate all of the collision shapes onto the player ship
 	for col_shape in part.collision_shapes:

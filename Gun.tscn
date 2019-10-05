@@ -11,7 +11,8 @@ extents = Vector2( 31.1792, 34.0398 )
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 5.22357, 22.2097 )
 
-[node name="Gun" type="Area2D"]
+[node name="Gun" type="RigidBody2D"]
+gravity_scale = 0.0
 script = ExtResource( 1 )
 
 [node name="GunBody" type="Sprite" parent="."]
