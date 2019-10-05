@@ -9,7 +9,6 @@
 extents = Vector2( 32, 32 )
 
 [node name="Reactor" type="Area2D"]
-position = Vector2( -1.98529, -49.2498 )
 script = ExtResource( 1 )
 
 [node name="Background" type="Sprite" parent="."]

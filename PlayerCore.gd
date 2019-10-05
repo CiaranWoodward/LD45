@@ -1,7 +1,7 @@
 extends RigidBody2D
 
 # Tile map
-onready var mTileMap : TileMap = get_node("TileMap")
+onready var mRootNode : Node2D = get_node("RootNode")
 onready var mShield : Shield = get_node("Shield")
 
 var thrust_power : float = 0.0
@@ -38,7 +38,7 @@ func _physics_process(delta : float):
 		apply_central_impulse(globalthrust)
 
 func add_part(part, mapCoords : Vector2) -> void:
-	var targetCoords = mTileMap.map_to_world(mapCoords)
+	var targetCoords = mapCoords * 64
 	if "mass" in part:
 		self.mass += part.mass
 	if "thrust" in part:
@@ -50,14 +50,21 @@ func add_part(part, mapCoords : Vector2) -> void:
 	part.map_coords = mapCoords
 		
 	part.set_global_position(targetCoords)
-	mTileMap.add_child(part, true)
+	mRootNode.add_child(part, true)
+	
+	# Relocate all of the collision shapes onto the player ship
+	for col_shape in part.collision_shapes:
+		var global_pos = col_shape.get_global_position()
+		part.remove_child(col_shape)
+		self.add_child(col_shape, true)
+		col_shape.set_global_position(global_pos)
 	
 	var shield_radius = get_furthest_part()
 	mShield.set_shield_params(shield_radius, 100)
 
 func get_furthest_part() -> float:
 	var furthestPart : float = 0.0
-	for N in mTileMap.get_children():
+	for N in mRootNode.get_children():
 		var length : float = N.map_coords.length()
 		if length > furthestPart:
 			furthestPart = length

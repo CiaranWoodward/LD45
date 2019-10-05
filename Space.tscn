@@ -14,9 +14,9 @@
 [ext_resource path="res://Core.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Reactor.tscn" type="PackedScene" id=13]
 
-[sub_resource type="PhysicsMaterial" id=4]
+[sub_resource type="PhysicsMaterial" id=1]
 
-[sub_resource type="SpriteFrames" id=1]
+[sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 6 ), ExtResource( 5 ), ExtResource( 4 ), ExtResource( 3 ) ],
 "loop": true,
@@ -24,10 +24,10 @@ animations = [ {
 "speed": 2.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 31.9833, 63.9744 )
 
-[sub_resource type="SpriteFrames" id=3]
+[sub_resource type="SpriteFrames" id=4]
 animations = [ {
 "frames": [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ) ],
 "loop": false,
@@ -40,7 +40,7 @@ script = ExtResource( 1 )
 
 [node name="PlayerCore" type="RigidBody2D" parent="."]
 position = Vector2( 557.049, 252.192 )
-physics_material_override = SubResource( 4 )
+physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 script = ExtResource( 2 )
 __meta__ = {
@@ -49,33 +49,32 @@ __meta__ = {
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="PlayerCore"]
 scale = Vector2( 2, 2 )
-frames = SubResource( 1 )
+frames = SubResource( 2 )
 animation = "Breathing"
-frame = 4
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCore"]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="Camera2D" type="Camera2D" parent="PlayerCore"]
 current = true
 smoothing_enabled = true
-
-[node name="TileMap" type="TileMap" parent="PlayerCore"]
-position = Vector2( -32, 0 )
-format = 1
 
 [node name="Shield" type="StaticBody2D" parent="PlayerCore"]
 modulate = Color( 0.27451, 0.694118, 0.92549, 0.839216 )
 z_index = 1
 script = ExtResource( 7 )
 
+[node name="RootNode" type="Node2D" parent="PlayerCore"]
+position = Vector2( 0, 32 )
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 modulate = Color( 1, 1, 1, 0.380392 )
 position = Vector2( 207.354, 415.591 )
 scale = Vector2( 4, 4 )
 z_index = -100
-frames = SubResource( 3 )
+frames = SubResource( 4 )
 animation = "stars"
 script = ExtResource( 11 )
 

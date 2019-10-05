@@ -36,27 +36,27 @@ hue_variation = -0.04
 hue_variation_random = 0.56
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 28.1719, 41.8463 )
+extents = Vector2( 27.8271, 42.3598 )
 
 [node name="Thruster" type="Area2D"]
-position = Vector2( -1.98529, -49.2498 )
 script = ExtResource( 1 )
+rotational_power = 500.0
 
 [node name="ThrustBody" type="Sprite" parent="."]
+position = Vector2( 0, 32 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
-centered = false
 
 [node name="ThrustFlame" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 0, 32 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 3 )
-centered = false
 script = ExtResource( 4 )
 
 [node name="Particles2D" type="Particles2D" parent="ThrustFlame"]
 modulate = Color( 1, 1, 1, 0.635294 )
-position = Vector2( 15.4628, 40.0407 )
+position = Vector2( -0.13134, 4.01287 )
 rotation = 1.5708
 scale = Vector2( 0.5, 0.5 )
 z_index = -5
@@ -72,6 +72,6 @@ texture = ExtResource( 5 )
 [node name="Tween" type="Tween" parent="ThrustFlame"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 32, 44 )
+position = Vector2( 0, 13 )
 shape = SubResource( 4 )
 [connection signal="tween_completed" from="ThrustFlame/Tween" to="ThrustFlame" method="_on_tween_completed"]

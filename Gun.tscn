@@ -6,33 +6,32 @@
 [ext_resource path="res://GunFlash.gd" type="Script" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 30.7763, 37.4677 )
+extents = Vector2( 31.1792, 34.0398 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 3.98456, 17.1277 )
+extents = Vector2( 5.22357, 22.2097 )
 
 [node name="Gun" type="Area2D"]
-position = Vector2( -1.98529, -49.2498 )
 script = ExtResource( 1 )
 
 [node name="GunBody" type="Sprite" parent="."]
+position = Vector2( 0, -32 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
-centered = false
 
 [node name="GunFlash" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 0, -32 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 3 )
-centered = false
 script = ExtResource( 4 )
 
 [node name="Tween" type="Tween" parent="GunFlash"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 32, 89.1692 )
+position = Vector2( -0.358505, -2.86789 )
 shape = SubResource( 1 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-position = Vector2( 32.2637, 32.9807 )
+position = Vector2( 1.52588e-005, -60.9427 )
 shape = SubResource( 2 )
