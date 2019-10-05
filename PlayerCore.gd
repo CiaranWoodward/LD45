@@ -7,8 +7,7 @@ const ROTATIONAL_DECAY : float = 0.95
 # Tile map
 onready var mTileMap : TileMap = get_node("TileMap")
 
-# angular momentum
-var rotational_speed : float= 0.0
+var thrust_power : float = 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,11 +24,15 @@ func _physics_process(delta : float):
 		apply_torque_impulse(ROTATIONAL_POWER)
 		
 	if Input.is_action_pressed("thrust"):
-		var globalthrust = global_transform.basis_xform(Vector2(0.0, -5.0))
+		var globalthrust = global_transform.basis_xform(Vector2(0.0, -thrust_power))
 		apply_central_impulse(globalthrust)
-	
 
 func add_part(part, mapCoords : Vector2) -> void:
 	var targetCoords = mTileMap.map_to_world(mapCoords)
+	if "mass" in part:
+		self.mass += part.mass
+	if "thrust" in part:
+		self.thrust_power += part.thrust
+		
 	part.set_global_position(targetCoords)
 	mTileMap.add_child(part, true)
