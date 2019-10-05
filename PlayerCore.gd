@@ -2,6 +2,7 @@ extends RigidBody2D
 
 # Tile map
 onready var mTileMap : TileMap = get_node("TileMap")
+onready var mShield : Shield = get_node("Shield")
 
 var thrust_power : float = 0.0
 var rotational_power : float = 100.0
@@ -17,6 +18,11 @@ func _ready():
 	add_part(gun, Vector2(-1, 0))
 	add_part(thruster2, Vector2(-1, 2))
 	add_part(storage, Vector2(1, 1))
+	add_part(preload("res://Storage.tscn").instance(), Vector2(0, -2))
+	add_part(preload("res://Storage.tscn").instance(), Vector2(0, -3))
+	add_part(preload("res://Storage.tscn").instance(), Vector2(0, -4))
+	add_part(preload("res://Storage.tscn").instance(), Vector2(0, -5))
+	add_part(preload("res://Thruster.tscn").instance(), Vector2(1, 2))
 
 # Called every tick at a constant rate. 'delta' is the elapsed time since the previous tick (fixed).
 func _physics_process(delta : float):
@@ -41,6 +47,18 @@ func add_part(part, mapCoords : Vector2) -> void:
 		self.rotational_power += part.rotational_power
 	if "storage_space" in part:
 		self.storage_space += part.storage_space
+	part.map_coords = mapCoords
 		
 	part.set_global_position(targetCoords)
 	mTileMap.add_child(part, true)
+	
+	var shield_radius = get_furthest_part()
+	mShield.set_shield_params(shield_radius, 100)
+
+func get_furthest_part() -> float:
+	var furthestPart : float = 0.0
+	for N in mTileMap.get_children():
+		var length : float = N.map_coords.length()
+		if length > furthestPart:
+			furthestPart = length
+	return (furthestPart + 1.14) * 64

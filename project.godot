@@ -8,9 +8,14 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "StaticBody2D",
+"class": "Shield",
+"language": "GDScript",
+"path": "res://Shield.gd"
+} ]
 _global_script_class_icons={
-
+"Shield": ""
 }
 
 [application]

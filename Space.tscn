@@ -51,7 +51,7 @@ __meta__ = {
 scale = Vector2( 2, 2 )
 frames = SubResource( 1 )
 animation = "Breathing"
-frame = 1
+frame = 4
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCore"]
@@ -67,6 +67,7 @@ format = 1
 
 [node name="Shield" type="StaticBody2D" parent="PlayerCore"]
 modulate = Color( 0.27451, 0.694118, 0.92549, 0.839216 )
+z_index = 1
 script = ExtResource( 7 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

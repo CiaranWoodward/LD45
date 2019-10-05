@@ -1,26 +1,52 @@
 extends StaticBody2D
+class_name Shield
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 const SHIELD_THICKNESS = 30
+
+var power_in : float = 100.0
+var current_power : float = 0
+var radius : float = 45.0
+var seg_count : int = 0
+var angle_span : float = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+	var angle = self.get_angle_to(self.get_global_mouse_position())
+	self.rotate(angle)
+	
+	if current_power < power_in:
+		current_power += power_in * delta * 0.2
+		
+	if current_power > power_in:
+		current_power = power_in
+	
+	angle_span = 200 * current_power / radius
+	
+	if angle_span > 360:
+		angle_span = 360
+	
+	#Check if we have to redraw, we only draw in units of 10 degrees
+	var n_seg_count = range(0, angle_span, 10).size()
+	if n_seg_count > seg_count:
+		seg_count = n_seg_count
+		angle_span = n_seg_count * 10.0
+		update() # trigger a redraw
 
 func _draw():
-	var radius = 200
-	var angle_from = 0
-	var angle_to = 50
+	var angle_center = 90
+	seg_count = range(0, angle_span, 10).size()
+	
+	var angle_from = angle_center - (angle_span/2)
+	var angle_to = angle_center + (angle_span/2)
+		
 	for ang in range(angle_from, angle_to, 10):
-		draw_circle_arc_thick(radius, ang, ang+10)
+		draw_circle_arc_thick(ang, ang+10)
 
-func draw_circle_arc_thick(radius, angle_from, angle_to):
+func draw_circle_arc_thick(angle_from, angle_to):
 	var nb_points = 2
 	var points_arc = PoolVector2Array()
 	var center = self.get_position()
@@ -38,3 +64,7 @@ func draw_circle_arc_thick(radius, angle_from, angle_to):
 		
 	var colors = PoolColorArray(color_array)
 	draw_polygon(points_arc, colors)
+
+func set_shield_params(radius : float, power : float):
+	self.radius = radius
+	self.power_in = power
