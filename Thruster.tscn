@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Thruster.gd" type="Script" id=1]
+[ext_resource path="res://sprites/thruster.png" type="Texture" id=2]
+[ext_resource path="res://sprites/thrusterflame.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 28.1719, 41.8463 )
+
+[node name="Thruster" type="Area2D"]
+position = Vector2( -1.98529, -49.2498 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ThrustBody" type="Sprite" parent="."]
+scale = Vector2( 2, 2 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="ThrustFlame" type="Sprite" parent="."]
+visible = false
+scale = Vector2( 2, 2 )
+texture = ExtResource( 3 )
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 32, 44 )
+shape = SubResource( 1 )

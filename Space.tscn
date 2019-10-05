@@ -54,6 +54,10 @@ shape = SubResource( 2 )
 current = true
 smoothing_enabled = true
 
+[node name="TileMap" type="TileMap" parent="PlayerCore"]
+position = Vector2( -32, 0 )
+format = 1
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 modulate = Color( 1, 1, 1, 0.380392 )
 position = Vector2( 207.354, 415.591 )
