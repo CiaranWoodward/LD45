@@ -1,6 +1,6 @@
-extends KinematicBody2D
+extends RigidBody2D
 
-const ROTATIONAL_POWER : float = 0.002
+const ROTATIONAL_POWER : float = 100.0
 const ROTATIONAL_MAX_SPEED : float = 0.02
 const ROTATIONAL_DECAY : float = 0.95
 
@@ -18,21 +18,16 @@ func _ready():
 # Called every tick at a constant rate. 'delta' is the elapsed time since the previous tick (fixed).
 func _physics_process(delta : float):
 	# Handle input
-	if Input.is_action_pressed("rot_left") and not Input.is_action_pressed("rot_right"):
-		rotational_speed -= ROTATIONAL_POWER
-	elif Input.is_action_pressed("rot_right") and not Input.is_action_pressed("rot_left"):
-		rotational_speed += ROTATIONAL_POWER
-	else:
-		rotational_speed *= ROTATIONAL_DECAY
+	if Input.is_action_pressed("rot_left"):
+		apply_torque_impulse(-ROTATIONAL_POWER)
 	
-	# Restrict max speed
-	if rotational_speed > ROTATIONAL_MAX_SPEED:
-		rotational_speed = ROTATIONAL_MAX_SPEED
-	elif rotational_speed < -ROTATIONAL_MAX_SPEED:
-		rotational_speed = -ROTATIONAL_MAX_SPEED
+	if Input.is_action_pressed("rot_right"):
+		apply_torque_impulse(ROTATIONAL_POWER)
+		
+	if Input.is_action_pressed("thrust"):
+		var globalthrust = global_transform.basis_xform(Vector2(0.0, -5.0))
+		apply_central_impulse(globalthrust)
 	
-	# Apply rotation
-	rotate(rotational_speed)
 
 func add_part(part, mapCoords : Vector2) -> void:
 	var targetCoords = mTileMap.map_to_world(mapCoords)
