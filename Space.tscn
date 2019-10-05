@@ -51,7 +51,7 @@ __meta__ = {
 scale = Vector2( 2, 2 )
 frames = SubResource( 2 )
 animation = "Breathing"
-frame = 1
+frame = 4
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCore"]
@@ -61,13 +61,17 @@ shape = SubResource( 3 )
 current = true
 smoothing_enabled = true
 
-[node name="Shield" type="StaticBody2D" parent="PlayerCore"]
-modulate = Color( 0.27451, 0.694118, 0.92549, 0.839216 )
-z_index = 1
-script = ExtResource( 7 )
-
 [node name="RootNode" type="Node2D" parent="PlayerCore"]
 position = Vector2( 0, 32 )
+
+[node name="Shield" type="StaticBody2D" parent="PlayerCore/RootNode"]
+modulate = Color( 0.27451, 0.694118, 0.92549, 0.839216 )
+z_index = 1
+collision_layer = 2
+collision_mask = 2
+script = ExtResource( 7 )
+
+[node name="ColPol" type="CollisionPolygon2D" parent="PlayerCore/RootNode/Shield"]
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 modulate = Color( 1, 1, 1, 0.380392 )

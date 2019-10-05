@@ -3,6 +3,8 @@ class_name Shield
 
 const SHIELD_THICKNESS = 30
 
+onready var col_pol : CollisionPolygon2D = get_node("ColPol")
+
 var power_in : float = 100.0
 var current_power : float = 0
 var radius : float = 45.0
@@ -42,7 +44,8 @@ func _draw():
 	
 	var angle_from = angle_center - (angle_span/2)
 	var angle_to = angle_center + (angle_span/2)
-		
+	
+	build_collision_mesh(angle_from, angle_to)
 	for ang in range(angle_from, angle_to, 10):
 		draw_circle_arc_thick(ang, ang+10)
 
@@ -65,6 +68,26 @@ func draw_circle_arc_thick(angle_from, angle_to):
 	var colors = PoolColorArray(color_array)
 	draw_polygon(points_arc, colors)
 
+func build_collision_mesh(angle_from, angle_to):
+	var nb_points = ceil((angle_to - angle_from)/20)
+	var points_arc = PoolVector2Array()
+	var center = self.get_position()
+	
+	if nb_points == 0:
+		col_pol.polygon = PoolVector2Array()
+		return
+
+	for i in range(nb_points + 1):
+		var angle_point = deg2rad(angle_from + i * (angle_to - angle_from) / nb_points - 90)
+		points_arc.push_back(center + Vector2(cos(angle_point), sin(angle_point)) * radius)
+	
+	for i in range(nb_points + 1):
+		var angle_point = deg2rad(angle_to + i * (angle_from - angle_to) / nb_points - 90)
+		points_arc.push_back(center + Vector2(cos(angle_point), sin(angle_point)) * (radius - SHIELD_THICKNESS))
+	
+	col_pol.polygon = points_arc
+
 func set_shield_params(radius : float, power : float):
 	self.radius = radius
 	self.power_in = power
+	update()

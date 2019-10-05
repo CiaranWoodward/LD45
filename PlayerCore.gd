@@ -2,7 +2,7 @@ extends RigidBody2D
 
 # Tile map
 onready var mRootNode : Node2D = get_node("RootNode")
-onready var mShield : Shield = get_node("Shield")
+onready var mShield : Shield = get_node("RootNode/Shield")
 
 var thrust_power : float = 0.0
 var rotational_power : float = 100.0
@@ -19,9 +19,6 @@ func _ready():
 	add_part(thruster2, Vector2(-1, 2))
 	add_part(storage, Vector2(1, 1))
 	add_part(preload("res://Storage.tscn").instance(), Vector2(0, -2))
-	add_part(preload("res://Storage.tscn").instance(), Vector2(0, -3))
-	add_part(preload("res://Storage.tscn").instance(), Vector2(0, -4))
-	add_part(preload("res://Storage.tscn").instance(), Vector2(0, -5))
 	add_part(preload("res://Thruster.tscn").instance(), Vector2(1, 2))
 
 # Called every tick at a constant rate. 'delta' is the elapsed time since the previous tick (fixed).
@@ -66,7 +63,8 @@ func add_part(part, mapCoords : Vector2) -> void:
 func get_furthest_part() -> float:
 	var furthestPart : float = 0.0
 	for N in mRootNode.get_children():
-		var length : float = N.map_coords.length()
-		if length > furthestPart:
-			furthestPart = length
-	return (furthestPart + 1.14) * 64
+		if "map_coords" in N:
+			var length : float = N.map_coords.length()
+			if length > furthestPart:
+				furthestPart = length
+	return (furthestPart + 1.5) * 64
