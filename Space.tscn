@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Space.gd" type="Script" id=1]
 [ext_resource path="res://PlayerCore.gd" type="Script" id=2]
@@ -6,12 +6,13 @@
 [ext_resource path="res://sprites/coffin1.png" type="Texture" id=4]
 [ext_resource path="res://sprites/coffin2.png" type="Texture" id=5]
 [ext_resource path="res://sprites/coffin3.png" type="Texture" id=6]
-[ext_resource path="res://sprites/stars0.png" type="Texture" id=7]
-[ext_resource path="res://sprites/stars1.png" type="Texture" id=8]
-[ext_resource path="res://sprites/stars2.png" type="Texture" id=9]
-[ext_resource path="res://AnimatedSprite.gd" type="Script" id=10]
-[ext_resource path="res://Core.tscn" type="PackedScene" id=11]
-[ext_resource path="res://Reactor.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Shield.gd" type="Script" id=7]
+[ext_resource path="res://sprites/stars0.png" type="Texture" id=8]
+[ext_resource path="res://sprites/stars1.png" type="Texture" id=9]
+[ext_resource path="res://sprites/stars2.png" type="Texture" id=10]
+[ext_resource path="res://AnimatedSprite.gd" type="Script" id=11]
+[ext_resource path="res://Core.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Reactor.tscn" type="PackedScene" id=13]
 
 [sub_resource type="PhysicsMaterial" id=4]
 
@@ -28,7 +29,7 @@ extents = Vector2( 31.9833, 63.9744 )
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ) ],
 "loop": false,
 "name": "stars",
 "speed": 5.0
@@ -50,7 +51,7 @@ __meta__ = {
 scale = Vector2( 2, 2 )
 frames = SubResource( 1 )
 animation = "Breathing"
-frame = 4
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCore"]
@@ -64,6 +65,10 @@ smoothing_enabled = true
 position = Vector2( -32, 0 )
 format = 1
 
+[node name="Shield" type="StaticBody2D" parent="PlayerCore"]
+modulate = Color( 0.27451, 0.694118, 0.92549, 0.839216 )
+script = ExtResource( 7 )
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 modulate = Color( 1, 1, 1, 0.380392 )
 position = Vector2( 207.354, 415.591 )
@@ -71,10 +76,10 @@ scale = Vector2( 4, 4 )
 z_index = -100
 frames = SubResource( 3 )
 animation = "stars"
-script = ExtResource( 10 )
+script = ExtResource( 11 )
 
-[node name="Core" parent="." instance=ExtResource( 11 )]
+[node name="Core" parent="." instance=ExtResource( 12 )]
 position = Vector2( 357.44, 106.835 )
 
-[node name="Reactor" parent="." instance=ExtResource( 12 )]
+[node name="Reactor" parent="." instance=ExtResource( 13 )]
 position = Vector2( 184.171, 103.971 )
