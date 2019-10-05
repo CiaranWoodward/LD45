@@ -1,0 +1,37 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://PlayerCore.gd" type="Script" id=1]
+[ext_resource path="res://sprites/coffin0.png" type="Texture" id=2]
+[ext_resource path="res://sprites/coffin1.png" type="Texture" id=3]
+[ext_resource path="res://sprites/coffin2.png" type="Texture" id=4]
+[ext_resource path="res://sprites/coffin3.png" type="Texture" id=5]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 5 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "Breathing",
+"speed": 2.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 31.9833, 63.9744 )
+
+[node name="Space" type="Node2D"]
+
+[node name="PlayerCore" type="KinematicBody2D" parent="."]
+position = Vector2( 553.194, 274.336 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="PlayerCore"]
+scale = Vector2( 2, 2 )
+frames = SubResource( 1 )
+animation = "Breathing"
+frame = 6
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCore"]
+shape = SubResource( 2 )
