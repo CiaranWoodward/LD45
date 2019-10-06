@@ -1,14 +1,19 @@
 extends RigidBody2D
 
-# Tile map
+# Root node for building
 onready var mRootNode : Node2D = get_node("RootNode")
 onready var mShield : Shield = get_node("RootNode/Shield")
+
+var is_connected : bool = true
+var is_connected_check : bool = true
 
 var thrust_power : float = 0.0
 var rotational_power : float = 100.0
 var storage_space : int = 50
 
 var build_mode : bool = false
+var connected_tiles = {Vector2(0, 0): self, Vector2(0, -1): self}
+var blocked_tiles = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -17,20 +22,24 @@ func _ready():
 func _process(delta):
 	if Input.is_action_just_pressed("item_select"):
 		var mousepos : Vector2 = self.get_local_mouse_position()
+		var part = preload("res://Storage.tscn").instance()
 		mousepos.x += 32
 		mousepos = mousepos / 64
 		mousepos.x = floor(mousepos.x)
 		mousepos.y = floor(mousepos.y)
-		add_part(preload("res://Storage.tscn").instance(), mousepos)
+		if can_add_part(part, mousepos):
+			add_part(part, mousepos)
 	
 	if Input.is_action_just_pressed("toggle_build"):
 		if build_mode:
 			mShield.current_power = 0
 			build_mode = false
-			mShield.visible = true
+			mShield.set_shield_mode(mShield.MODE_SHIELD)
+			update_shield()
 		else:
+			mShield.current_power = 0
 			build_mode = true
-			mShield.visible = false
+			mShield.set_shield_mode(mShield.MODE_BUILD)
 
 # Called every tick at a constant rate. 'delta' is the elapsed time since the previous tick (fixed).
 func _physics_process(delta : float):
@@ -45,6 +54,17 @@ func _physics_process(delta : float):
 		var globalthrust = global_transform.basis_xform(Vector2(0.0, -thrust_power))
 		apply_central_impulse(globalthrust)
 
+func can_add_part(part, mapCoords : Vector2) -> bool:
+	#Tile is blocked
+	if mapCoords in blocked_tiles:
+		return false
+	
+	#Tile is already connected
+	if connected_tiles.has(mapCoords):
+		return false
+	
+	return true
+
 func add_part(part, mapCoords : Vector2) -> void:
 	var targetCoords = mapCoords * 64
 	if "mass" in part:
@@ -57,8 +77,11 @@ func add_part(part, mapCoords : Vector2) -> void:
 		self.storage_space += part.storage_space
 	if "is_connected" in part:
 		part.is_connected = true
+	if "blocked_tile" in part:
+		blocked_tiles.append(part.blocked_tile + mapCoords)
 	part.map_coords = mapCoords
-		
+	
+	connected_tiles[part.map_coords] = part
 	part.set_global_position(targetCoords)
 	mRootNode.add_child(part, true)
 	part.mode = RigidBody2D.MODE_STATIC
@@ -70,6 +93,10 @@ func add_part(part, mapCoords : Vector2) -> void:
 		self.add_child(col_shape, true)
 		col_shape.set_global_position(global_pos)
 	
+	update_shield()
+
+
+func update_shield():
 	var shield_radius = get_furthest_part()
 	mShield.set_shield_params(shield_radius, 100)
 
