@@ -4,9 +4,12 @@ extends RigidBody2D
 onready var mRootNode : Node2D = get_node("RootNode")
 onready var mShield : Shield = get_node("RootNode/Shield")
 onready var mGlobal = get_node("/root/Global")
+var mCore
 
 var is_connected : bool = true
 var is_connected_check : bool = true
+var always_connected : bool = true
+var map_coords : Vector2 = Vector2(0, 0)
 
 var thrust_power : float = 0.0
 var rotational_power : float = 100.0
@@ -18,7 +21,8 @@ var blocked_tiles = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	add_part(preload("res://Core.tscn").instance(), Vector2(0, 1))
+	mCore = preload("res://Core.tscn").instance()
+	add_part(mCore, Vector2(0, 1))
 	mGlobal.game_shield = mShield
 
 func _process(delta):
@@ -161,12 +165,49 @@ func _input_event(viewport, event, shape_idx):
 		var tilepos = mouse_to_tilepos()
 		if connected_tiles.has(tilepos):
 			var part = connected_tiles[tilepos]
+			if "always_connected" in part && part.always_connected:
+				return
 			drop_part(part)
+			drop_unconnected_nodes()
 			mShield.part_picked(part)
 
 func update_shield():
 	var shield_radius = get_furthest_part()
 	mShield.set_shield_params(shield_radius, 100)
+
+func drop_unconnected_nodes():
+	#First set all of the is_connected_check values to false
+	for N in mRootNode.get_children():
+		if "is_connected_check" in N:
+			N.is_connected_check = false
+	
+	#Mark connection from Core & 2 cockpit tiles
+	mark_connected_neighbors(mCore, mCore.map_coords)
+	self.is_connected_check = false
+	mark_connected_neighbors(self, Vector2(0, 0))
+	self.is_connected_check = false
+	mark_connected_neighbors(self, Vector2(0, -1))
+	
+	#Drop all unconnected nodes
+	var drop_these = []
+	for N in mRootNode.get_children():
+		if "is_connected_check" in N && !N.is_connected_check:
+			drop_these.append(N)
+	for N in drop_these:
+		drop_part(N)
+
+func mark_connected_neighbors(part, coords):
+	if part.is_connected_check:
+		return #Already processed
+	
+	part.is_connected_check = true
+	var direction = Vector2(1, 0)
+	for i in range(4):
+		var coords_next = part.map_coords + direction
+		if connected_tiles.has(coords_next):
+			var target = connected_tiles[coords_next]
+			mark_connected_neighbors(target, coords_next)
+		direction = direction.rotated(PI/2).round()
 
 func get_furthest_part() -> float:
 	var furthestPart : float = 0.0
