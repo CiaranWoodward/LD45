@@ -11,6 +11,7 @@ extents = Vector2( 32, 32 )
 
 [node name="Reactor" type="RigidBody2D"]
 input_pickable = true
+collision_layer = 5
 gravity_scale = 0.0
 linear_damp = 0.05
 angular_damp = 0.01

@@ -43,6 +43,7 @@ scale_random = 0.48
 color_ramp = SubResource( 3 )
 
 [node name="Core" type="RigidBody2D"]
+collision_layer = 5
 gravity_scale = 0.0
 linear_damp = 0.05
 angular_damp = 0.01

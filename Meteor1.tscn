@@ -10,6 +10,7 @@ radius = 23.9685
 
 [node name="Meteor" type="RigidBody2D"]
 input_pickable = true
+collision_layer = 5
 collision_mask = 3
 gravity_scale = 0.0
 continuous_cd = 2

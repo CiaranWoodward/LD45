@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Bullet.gd" type="Script" id=1]
+[ext_resource path="res://sprites/bullet.png" type="Texture" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 7.95588
+
+[node name="Bullet" type="RigidBody2D"]
+input_pickable = true
+collision_layer = 4
+collision_mask = 4
+gravity_scale = 0.0
+continuous_cd = 2
+contacts_reported = 2
+contact_monitor = true
+linear_damp = 0.0
+angular_damp = 0.0
+script = ExtResource( 1 )
+MAX_HEALTH = 1.0
+
+[node name="BulletSprite" type="Sprite" parent="."]
+scale = Vector2( 2, 2 )
+z_index = -1
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
