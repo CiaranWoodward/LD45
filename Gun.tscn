@@ -12,6 +12,7 @@ extents = Vector2( 31.1792, 34.0398 )
 extents = Vector2( 5.22357, 22.2097 )
 
 [node name="Gun" type="RigidBody2D"]
+input_pickable = true
 gravity_scale = 0.0
 script = ExtResource( 1 )
 

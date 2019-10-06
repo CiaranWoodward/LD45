@@ -142,7 +142,6 @@ func drop_part(part):
 		blocked_tiles.remove(blocked_tiles.find(part.blocked_tile + mapCoords))
 	
 	var gcoords = part.get_global_position()
-	print(connected_tiles[part.map_coords].name)
 	connected_tiles.erase(part.map_coords)
 	mRootNode.remove_child(part)
 	part.mode = RigidBody2D.MODE_RIGID
