@@ -12,6 +12,7 @@ var blocked_tile : Vector2 = Vector2(0, -1)
 onready var collision_shapes = [get_node("CollisionShape2D"), get_node("CollisionShape2D2")]
 
 onready var mMuzzle = get_node("MuzzleTip")
+onready var mCooldown : Timer = get_node("Cooldown")
 onready var mGlobal = get_node("/root/Global")
 
 func _input_event(viewport, event, shape_idx):
@@ -22,7 +23,8 @@ func _process(delta):
 	if(!is_connected):
 		return
 		
-	if Input.is_action_just_pressed("shoot"):
+	if Input.is_action_pressed("shoot") && mCooldown.is_stopped():
+		mCooldown.start()
 		var host_node = get_node("../..")
 		var bullet = preload("res://Bullet.tscn").instance()
 		get_tree().get_root().add_child(bullet)

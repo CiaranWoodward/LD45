@@ -47,3 +47,7 @@ script = ExtResource( 5 )
 [node name="MuzzleTip" type="Node2D" parent="."]
 position = Vector2( 0, -80 )
 rotation = -1.5708
+
+[node name="Cooldown" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true

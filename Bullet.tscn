@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Bullet.gd" type="Script" id=1]
 [ext_resource path="res://sprites/bullet.png" type="Texture" id=2]
+[ext_resource path="res://BulletSprite.gd" type="Script" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 7.95588
@@ -23,6 +24,9 @@ MAX_HEALTH = 1.0
 scale = Vector2( 2, 2 )
 z_index = -1
 texture = ExtResource( 2 )
+script = ExtResource( 3 )
+
+[node name="Tween" type="Tween" parent="BulletSprite"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
