@@ -1,5 +1,7 @@
 extends RigidBody2D
 
+export var MAX_HEALTH : float = 150
+
 # Root node for building
 onready var mRootNode : Node2D = get_node("RootNode")
 onready var mShield : Shield = get_node("RootNode/Shield")
@@ -14,6 +16,9 @@ var map_coords : Vector2 = Vector2(0, 0)
 var thrust_power : float = 0.0
 var rotational_power : float = 100.0
 var storage_space : int = 50
+
+onready var health : float = MAX_HEALTH
+var dead : bool 
 
 var build_mode : bool = false
 var connected_tiles = {Vector2(0, 0): self, Vector2(0, -1): self}
@@ -217,3 +222,22 @@ func get_furthest_part() -> float:
 			if length > furthestPart:
 				furthestPart = length
 	return (furthestPart + 1.5) * 64
+
+func damage(damage : float, health_src : float, body_shape : int) -> float:
+	var id_count : int = 0
+	for ch in self.get_children():
+		if ch is CollisionShape2D:
+			if body_shape == id_count:
+				if "original_parent" in ch:
+					return ch.original_parent.damage(damage, health_src, 0)
+				break
+			id_count += 1
+	
+	health -= damage
+	if health < 0:
+		die()
+		return damage - health
+	return damage
+
+func die():
+	print("Game over")

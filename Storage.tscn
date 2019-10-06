@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Storage.gd" type="Script" id=1]
-[ext_resource path="res://sprites/storage.png" type="Texture" id=2]
-[ext_resource path="res://CollisionShape2D.gd" type="Script" id=3]
+[ext_resource path="res://CollisionShape2D.gd" type="Script" id=2]
+[ext_resource path="res://sprites/storage.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 32 )
@@ -13,11 +13,12 @@ gravity_scale = 0.0
 linear_damp = 0.05
 angular_damp = 0.01
 script = ExtResource( 1 )
-
-[node name="StorageSprite" type="Sprite" parent="."]
-scale = Vector2( 2, 2 )
-texture = ExtResource( 2 )
+MAX_HEALTH = 500.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
-script = ExtResource( 3 )
+script = ExtResource( 2 )
+
+[node name="StorageSprite" type="Sprite" parent="."]
+scale = Vector2( 2, 2 )
+texture = ExtResource( 3 )

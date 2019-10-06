@@ -62,7 +62,6 @@ __meta__ = {
 scale = Vector2( 2, 2 )
 frames = SubResource( 2 )
 animation = "Breathing"
-frame = 3
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCore"]
@@ -110,14 +109,14 @@ position = Vector2( 295.327, 208.118 )
 rotation = 0.523598
 
 [node name="Storage2" parent="." instance=ExtResource( 15 )]
-position = Vector2( 206.07, 339.65 )
+position = Vector2( 316.8, 378.61 )
 rotation = -0.523598
 
 [node name="Meteor" parent="." instance=ExtResource( 16 )]
-position = Vector2( 1185.8, 518.451 )
+position = Vector2( 1530.29, 811.68 )
 
 [node name="Meteor2" parent="." instance=ExtResource( 17 )]
-position = Vector2( -224.385, 637.273 )
+position = Vector2( -622.191, 1133.51 )
 mass = 4.0
 
 [node name="Gun" parent="." instance=ExtResource( 18 )]
