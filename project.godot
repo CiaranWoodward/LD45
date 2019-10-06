@@ -24,6 +24,10 @@ config/name="SpaceCell"
 run/main_scene="res://Space.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Global="*res://Global.gd"
+
 [input]
 
 rot_left={

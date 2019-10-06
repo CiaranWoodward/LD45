@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Space.gd" type="Script" id=1]
 [ext_resource path="res://PlayerCore.gd" type="Script" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://Core.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Reactor.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Thruster.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Storage.tscn" type="PackedScene" id=15]
 
 [sub_resource type="PhysicsMaterial" id=1]
 
@@ -52,7 +53,7 @@ __meta__ = {
 scale = Vector2( 2, 2 )
 frames = SubResource( 2 )
 animation = "Breathing"
-frame = 4
+frame = 3
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCore"]
@@ -66,6 +67,7 @@ smoothing_enabled = true
 position = Vector2( 0, 32 )
 
 [node name="Shield" type="StaticBody2D" parent="PlayerCore/RootNode"]
+editor/display_folded = true
 modulate = Color( 0.27451, 0.694118, 0.92549, 0.839216 )
 z_index = 1
 collision_layer = 2
@@ -91,3 +93,6 @@ position = Vector2( 184.171, 103.971 )
 
 [node name="Thruster" parent="." instance=ExtResource( 14 )]
 position = Vector2( 640.047, 165.979 )
+
+[node name="Storage" parent="." instance=ExtResource( 15 )]
+position = Vector2( 285.892, 256.57 )

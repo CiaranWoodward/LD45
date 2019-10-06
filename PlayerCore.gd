@@ -3,6 +3,7 @@ extends RigidBody2D
 # Root node for building
 onready var mRootNode : Node2D = get_node("RootNode")
 onready var mShield : Shield = get_node("RootNode/Shield")
+onready var mGlobal = get_node("/root/Global")
 
 var is_connected : bool = true
 var is_connected_check : bool = true
@@ -18,6 +19,7 @@ var blocked_tiles = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	add_part(preload("res://Core.tscn").instance(), Vector2(0, 1))
+	mGlobal.game_shield = mShield
 
 func _process(delta):
 	if Input.is_action_just_pressed("item_select"):

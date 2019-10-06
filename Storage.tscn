@@ -7,6 +7,7 @@
 extents = Vector2( 32, 32 )
 
 [node name="Storage" type="RigidBody2D"]
+input_pickable = true
 gravity_scale = 0.0
 script = ExtResource( 1 )
 

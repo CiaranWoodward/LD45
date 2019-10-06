@@ -14,6 +14,8 @@ var seg_count : int = 0
 var angle_span : float = 0
 var cur_mode = MODE_SHIELD
 
+var cur_part : Object = null
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -28,6 +30,9 @@ func _process(delta):
 func process_build(delta):
 	self.set_global_position(self.get_global_mouse_position())
 	self.rotation = 0
+	
+	if cur_part != null && !Input.is_mouse_button_pressed(BUTTON_LEFT):
+		drop_part()
 	
 	if current_power < power_in:
 		current_power += power_in * delta * 0.2
@@ -131,3 +136,28 @@ func set_shield_mode(mode):
 		cur_mode = MODE_BUILD
 		self.set_global_position(self.get_global_mouse_position())
 		radius = 64
+
+func drop_part():
+	if cur_part == null:
+		return
+	cur_part.mode = RigidBody2D.MODE_RIGID
+	for cs in cur_part.collision_shapes:
+		cs.disabled = false
+	var gcoords = cur_part.get_global_position()
+	self.remove_child(cur_part)
+	get_tree().get_root().add_child(cur_part)
+	cur_part.set_global_position(gcoords)
+	cur_part = null
+
+func part_picked(part):
+	if cur_part == null && cur_mode == MODE_BUILD:
+		cur_part = part
+		cur_part.mode = RigidBody2D.MODE_STATIC
+		# Hide collision shaped for carrying
+		for cs in cur_part.collision_shapes:
+			cs.disabled = true
+		#Remove from old parent
+		cur_part.get_parent().remove_child(cur_part)
+		self.add_child(cur_part)
+		cur_part.position = Vector2(0,0)
+		cur_part.rotation = 0
