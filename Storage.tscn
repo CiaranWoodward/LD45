@@ -13,7 +13,6 @@ gravity_scale = 0.0
 linear_damp = 0.05
 angular_damp = 0.01
 script = ExtResource( 1 )
-MAX_HEALTH = 500.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )

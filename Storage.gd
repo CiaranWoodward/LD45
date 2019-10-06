@@ -3,6 +3,7 @@ extends RigidBody2D
 export var storage_space : int = 50
 export var MAX_HEALTH : float = 50
 onready var health : float = MAX_HEALTH
+var dead : bool = false
 
 onready var mGlobal = get_node("/root/Global")
 var map_coords : Vector2
@@ -18,13 +19,12 @@ func damage(damage : float, health_src : float, body_shape : int) -> float:
 	health -= damage
 	if health < 0:
 		health = 0
-	self.modulate = Color(255, health/MAX_HEALTH, health/MAX_HEALTH)
+	self.modulate = Color(1.0, health/MAX_HEALTH, health/MAX_HEALTH)
 	if health <= 0:
 		die()
 		return damage - health
 	return damage
 
-var dead : bool = false
 func die():
 	if(dead):
 		return

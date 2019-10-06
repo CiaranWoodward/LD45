@@ -14,7 +14,7 @@ var always_connected : bool = true
 var map_coords : Vector2 = Vector2(0, 0)
 
 var thrust_power : float = 0.0
-var rotational_power : float = 100.0
+var rotational_power : float = 500.0
 var storage_space : int = 50
 
 onready var health : float = MAX_HEALTH
@@ -32,6 +32,8 @@ func _ready():
 	mGlobal.player_core = self
 
 func _process(delta):
+	if(dead):
+		return
 	if Input.is_action_just_pressed("toggle_build"):
 		if build_mode:
 			mShield.current_power = 0
@@ -45,6 +47,8 @@ func _process(delta):
 
 # Called every tick at a constant rate. 'delta' is the elapsed time since the previous tick (fixed).
 func _physics_process(delta : float):
+	if(dead):
+		return
 	# Handle input
 	if Input.is_action_pressed("rot_left"):
 		apply_torque_impulse(-rotational_power)
@@ -235,9 +239,16 @@ func damage(damage : float, health_src : float, body_shape : int) -> float:
 	
 	health -= damage
 	if health < 0:
+		health = 0
+	self.modulate = Color(1.0, health/(MAX_HEALTH), health/(MAX_HEALTH))
+	if health <= 0:
 		die()
 		return damage - health
 	return damage
 
 func die():
+	dead = true
+	mShield.visible = false
+	get_node("AnimatedSprite").playing = false
+	get_node("AnimatedSprite").frame = 0
 	print("Game over")
