@@ -72,20 +72,21 @@ func can_add_part(part, mapCoords : Vector2) -> bool:
 	
 	return true
 
-func can_add_part_at_mouse(part) -> bool:
+func mouse_to_tilepos() -> Vector2:
 	var mousepos : Vector2 = self.get_local_mouse_position()
 	mousepos.x += 32
 	mousepos = mousepos / 64
 	mousepos = mousepos.floor()
+	return mousepos
+
+func can_add_part_at_mouse(part) -> bool:
+	var mousepos : Vector2 = self.mouse_to_tilepos()
 	if can_add_part(part, mousepos):
 		return true
 	return false
 
 func add_part_at_mouse(part) -> bool:
-	var mousepos : Vector2 = self.get_local_mouse_position()
-	mousepos.x += 32
-	mousepos = mousepos / 64
-	mousepos = mousepos.floor()
+	var mousepos : Vector2 = self.mouse_to_tilepos()
 	if can_add_part(part, mousepos):
 		add_part(part, mousepos)
 		return true
@@ -105,8 +106,8 @@ func add_part(part, mapCoords : Vector2) -> void:
 		part.is_connected = true
 	if "blocked_tile" in part:
 		blocked_tiles.append(part.blocked_tile + mapCoords)
-	part.map_coords = mapCoords
 	
+	part.map_coords = mapCoords
 	connected_tiles[part.map_coords] = part
 	part.set_global_position(targetCoords)
 	mRootNode.add_child(part, true)
@@ -121,6 +122,47 @@ func add_part(part, mapCoords : Vector2) -> void:
 	
 	update_shield()
 
+func drop_part(part):
+	var mapCoords = part.map_coords
+	if "mass" in part:
+		self.mass -= part.mass
+	if "thrust" in part:
+		self.thrust_power -= part.thrust
+	if "rotational_power" in part:
+		self.rotational_power -= part.rotational_power
+	if "storage_space" in part:
+		self.storage_space -= part.storage_space
+	if "is_connected" in part:
+		part.is_connected = false
+	if "blocked_tile" in part:
+		blocked_tiles.remove(blocked_tiles.find(part.blocked_tile + mapCoords))
+	
+	var gcoords = part.get_global_position()
+	print(connected_tiles[part.map_coords].name)
+	connected_tiles.erase(part.map_coords)
+	mRootNode.remove_child(part)
+	part.mode = RigidBody2D.MODE_RIGID
+	get_tree().get_root().add_child(part)
+	part.set_global_position(gcoords)
+	
+	# Relocate all of the collision shapes onto the part
+	for col_shape in part.collision_shapes:
+		var global_pos = col_shape.get_global_position()
+		self.remove_child(col_shape)
+		part.add_child(col_shape, true)
+		col_shape.set_global_position(global_pos)
+	
+	update_shield()
+
+func _input_event(viewport, event, shape_idx):
+	if !build_mode:
+		return
+	if event is InputEventMouseButton && event.get_button_index() == BUTTON_LEFT && event.pressed:
+		var tilepos = mouse_to_tilepos()
+		if connected_tiles.has(tilepos):
+			var part = connected_tiles[tilepos]
+			drop_part(part)
+			mShield.part_picked(part)
 
 func update_shield():
 	var shield_radius = get_furthest_part()
