@@ -14,6 +14,8 @@ onready var collision_shapes = [get_node("CollisionShape2D"), get_node("Collisio
 onready var mMuzzle = get_node("MuzzleTip")
 onready var mCooldown : Timer = get_node("Cooldown")
 onready var mGlobal = get_node("/root/Global")
+onready var mSound : AudioStreamPlayer = get_node("GunSound")
+onready var mFlash = get_node("GunFlash")
 
 func _input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton && event.get_button_index() == BUTTON_LEFT && event.pressed:
@@ -24,7 +26,11 @@ func _process(delta):
 		return
 		
 	if Input.is_action_pressed("shoot") && mCooldown.is_stopped():
+		mCooldown.wait_time = rand_range(0.4, 0.6)
 		mCooldown.start()
+		mFlash.flash()
+		mSound.pitch_scale = rand_range(0.8, 1.2)
+		mSound.play()
 		var host_node = get_node("../..")
 		var bullet = preload("res://Bullet.tscn").instance()
 		get_tree().get_root().add_child(bullet)
