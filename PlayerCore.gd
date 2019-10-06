@@ -16,6 +16,7 @@ var map_coords : Vector2 = Vector2(0, 0)
 var thrust_power : float = 0.0
 var rotational_power : float = 500.0
 var storage_space : int = 50
+var loot_stored = 0;
 
 onready var health : float = MAX_HEALTH
 var dead : bool 
@@ -39,11 +40,13 @@ func _process(delta):
 			mShield.current_power = 0
 			build_mode = false
 			mShield.set_shield_mode(mShield.MODE_SHIELD)
+			get_node("Pickup/CollisionShape2D").disabled = true
 			update_shield()
 		else:
 			mShield.current_power = 0
 			build_mode = true
 			mShield.set_shield_mode(mShield.MODE_BUILD)
+			get_node("Pickup/CollisionShape2D").disabled = false
 
 # Called every tick at a constant rate. 'delta' is the elapsed time since the previous tick (fixed).
 func _physics_process(delta : float):
@@ -252,3 +255,9 @@ func die():
 	get_node("AnimatedSprite").playing = false
 	get_node("AnimatedSprite").frame = 0
 	print("Game over")
+
+func _on_Pickup_area_entered(area):
+	var loot = area.get_node("LootSprite")
+	if loot_stored < storage_space && is_instance_valid(loot):
+		loot_stored += loot.collect()
+		print("loot: " + str(loot_stored))

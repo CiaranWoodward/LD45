@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Space.gd" type="Script" id=1]
 [ext_resource path="res://PlayerCore.gd" type="Script" id=2]
@@ -8,17 +8,18 @@
 [ext_resource path="res://sprites/coffin3.png" type="Texture" id=6]
 [ext_resource path="res://CollisionShape2D.gd" type="Script" id=7]
 [ext_resource path="res://Shield.gd" type="Script" id=8]
-[ext_resource path="res://sprites/stars0.png" type="Texture" id=9]
-[ext_resource path="res://sprites/stars1.png" type="Texture" id=10]
-[ext_resource path="res://sprites/stars2.png" type="Texture" id=11]
-[ext_resource path="res://AnimatedSprite.gd" type="Script" id=12]
-[ext_resource path="res://Reactor.tscn" type="PackedScene" id=13]
-[ext_resource path="res://Thruster.tscn" type="PackedScene" id=14]
-[ext_resource path="res://Storage.tscn" type="PackedScene" id=15]
-[ext_resource path="res://Meteor1.tscn" type="PackedScene" id=16]
-[ext_resource path="res://Meteor2.tscn" type="PackedScene" id=17]
-[ext_resource path="res://Gun.tscn" type="PackedScene" id=18]
-[ext_resource path="res://Loot.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Pickup.gd" type="Script" id=9]
+[ext_resource path="res://sprites/stars0.png" type="Texture" id=10]
+[ext_resource path="res://sprites/stars1.png" type="Texture" id=11]
+[ext_resource path="res://sprites/stars2.png" type="Texture" id=12]
+[ext_resource path="res://AnimatedSprite.gd" type="Script" id=13]
+[ext_resource path="res://Reactor.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Thruster.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Storage.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Meteor1.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Meteor2.tscn" type="PackedScene" id=18]
+[ext_resource path="res://Gun.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Loot.tscn" type="PackedScene" id=20]
 
 [sub_resource type="PhysicsMaterial" id=1]
 
@@ -37,9 +38,12 @@ extents = Vector2( 31.9833, 63.9744 )
 friction = 0.0
 bounce = 0.5
 
+[sub_resource type="CircleShape2D" id=6]
+radius = 32.0
+
 [sub_resource type="SpriteFrames" id=4]
 animations = [ {
-"frames": [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ) ],
+"frames": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ) ],
 "loop": false,
 "name": "stars",
 "speed": 5.0
@@ -62,7 +66,7 @@ __meta__ = {
 scale = Vector2( 2, 2 )
 frames = SubResource( 2 )
 animation = "Breathing"
-frame = 3
+frame = 5
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCore"]
@@ -77,6 +81,7 @@ smoothing_enabled = true
 position = Vector2( 0, 32 )
 
 [node name="Shield" type="StaticBody2D" parent="PlayerCore/RootNode"]
+editor/display_folded = true
 modulate = Color( 0.27451, 0.694118, 0.92549, 0.839216 )
 z_index = 1
 collision_layer = 2
@@ -89,6 +94,16 @@ script = ExtResource( 8 )
 [node name="Cooldown" type="Timer" parent="PlayerCore/RootNode/Shield"]
 one_shot = true
 
+[node name="Pickup" type="Area2D" parent="PlayerCore"]
+input_pickable = false
+collision_layer = 1024
+collision_mask = 1024
+script = ExtResource( 9 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCore/Pickup"]
+shape = SubResource( 6 )
+disabled = true
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 modulate = Color( 1, 1, 1, 0.380392 )
 position = Vector2( 207.354, 415.591 )
@@ -96,40 +111,41 @@ scale = Vector2( 4, 4 )
 z_index = -100
 frames = SubResource( 4 )
 animation = "stars"
-script = ExtResource( 12 )
+script = ExtResource( 13 )
 
-[node name="Reactor" parent="." instance=ExtResource( 13 )]
+[node name="Reactor" parent="." instance=ExtResource( 14 )]
 position = Vector2( 384.293, 74.5052 )
 rotation = -0.523598
 
-[node name="Thruster" parent="." instance=ExtResource( 14 )]
+[node name="Thruster" parent="." instance=ExtResource( 15 )]
 position = Vector2( 739.494, 123.008 )
 rotation = -0.261799
 
-[node name="Storage" parent="." instance=ExtResource( 15 )]
+[node name="Storage" parent="." instance=ExtResource( 16 )]
 position = Vector2( 295.327, 208.118 )
 rotation = 0.523598
 
-[node name="Storage2" parent="." instance=ExtResource( 15 )]
+[node name="Storage2" parent="." instance=ExtResource( 16 )]
 position = Vector2( 316.8, 378.61 )
 rotation = -0.523598
 
-[node name="Meteor" parent="." instance=ExtResource( 16 )]
+[node name="Meteor" parent="." instance=ExtResource( 17 )]
 position = Vector2( 1530.29, 811.68 )
 
-[node name="Meteor2" parent="." instance=ExtResource( 17 )]
+[node name="Meteor2" parent="." instance=ExtResource( 18 )]
 position = Vector2( -622.191, 1133.51 )
 mass = 4.0
 
-[node name="Gun" parent="." instance=ExtResource( 18 )]
+[node name="Gun" parent="." instance=ExtResource( 19 )]
 position = Vector2( 542.661, 476.363 )
 rotation = -0.523598
 
-[node name="Loot" parent="." instance=ExtResource( 19 )]
+[node name="Loot" parent="." instance=ExtResource( 20 )]
 position = Vector2( 525.473, 46.6541 )
 
-[node name="Loot2" parent="." instance=ExtResource( 19 )]
+[node name="Loot2" parent="." instance=ExtResource( 20 )]
 position = Vector2( 554.922, 42.8541 )
 
-[node name="Loot3" parent="." instance=ExtResource( 19 )]
+[node name="Loot3" parent="." instance=ExtResource( 20 )]
 position = Vector2( 540.672, 21.9541 )
+[connection signal="area_entered" from="PlayerCore/Pickup" to="PlayerCore" method="_on_Pickup_area_entered"]
