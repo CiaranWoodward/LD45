@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Thruster.gd" type="Script" id=1]
 [ext_resource path="res://sprites/thruster.png" type="Texture" id=2]
 [ext_resource path="res://sprites/thrusterflame.png" type="Texture" id=3]
 [ext_resource path="res://ThrustFlame.gd" type="Script" id=4]
 [ext_resource path="res://sprites/thrusterparticle.png" type="Texture" id=5]
+[ext_resource path="res://CollisionShape2D.gd" type="Script" id=6]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.674847, 1 )
@@ -78,4 +79,5 @@ texture = ExtResource( 5 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 13 )
 shape = SubResource( 4 )
+script = ExtResource( 6 )
 [connection signal="tween_completed" from="ThrustFlame/Tween" to="ThrustFlame" method="_on_tween_completed"]

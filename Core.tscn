@@ -1,12 +1,13 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Core.gd" type="Script" id=1]
 [ext_resource path="res://sprites/core.png" type="Texture" id=2]
-[ext_resource path="res://sprites/core-ball.png" type="Texture" id=3]
-[ext_resource path="res://CoreBall.gd" type="Script" id=4]
-[ext_resource path="res://sprites/core-glow.png" type="Texture" id=5]
-[ext_resource path="res://CoreGlow.gd" type="Script" id=6]
-[ext_resource path="res://sprites/coreparticle.png" type="Texture" id=7]
+[ext_resource path="res://CollisionShape2D.gd" type="Script" id=3]
+[ext_resource path="res://sprites/core-ball.png" type="Texture" id=4]
+[ext_resource path="res://CoreBall.gd" type="Script" id=5]
+[ext_resource path="res://sprites/core-glow.png" type="Texture" id=6]
+[ext_resource path="res://CoreGlow.gd" type="Script" id=7]
+[ext_resource path="res://sprites/coreparticle.png" type="Texture" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 32 )
@@ -53,18 +54,19 @@ texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
+script = ExtResource( 3 )
 
 [node name="CoreBall" type="Sprite" parent="."]
 scale = Vector2( 2, 2 )
-texture = ExtResource( 3 )
-script = ExtResource( 4 )
+texture = ExtResource( 4 )
+script = ExtResource( 5 )
 rotation_speed = 1.0
 
 [node name="CoreGlow" type="Sprite" parent="."]
 editor/display_folded = true
 scale = Vector2( 2, 2 )
-texture = ExtResource( 5 )
-script = ExtResource( 6 )
+texture = ExtResource( 6 )
+script = ExtResource( 7 )
 
 [node name="Tween" type="Tween" parent="CoreGlow"]
 
@@ -73,5 +75,5 @@ amount = 30
 lifetime = 1.5
 randomness = 0.79
 process_material = SubResource( 4 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 [connection signal="tween_completed" from="CoreGlow/Tween" to="CoreGlow" method="_on_tween_completed"]

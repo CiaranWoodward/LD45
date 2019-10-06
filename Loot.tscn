@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://sprites/loot.png" type="Texture" id=1]
+[ext_resource path="res://LootSprite.gd" type="Script" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 11.9545
+
+[node name="Loot" type="Area2D"]
+
+[node name="LootSprite" type="Sprite" parent="."]
+scale = Vector2( 2, 2 )
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Tween" type="Tween" parent="LootSprite"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+[connection signal="tween_completed" from="LootSprite/Tween" to="LootSprite" method="_on_Tween_tween_completed"]

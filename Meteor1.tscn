@@ -13,6 +13,8 @@ input_pickable = true
 collision_mask = 3
 gravity_scale = 0.0
 continuous_cd = 2
+contacts_reported = 2
+contact_monitor = true
 linear_damp = 0.0
 angular_damp = 0.0
 script = ExtResource( 1 )
@@ -25,6 +27,7 @@ texture = ExtResource( 2 )
 shape = SubResource( 1 )
 
 [node name="MeteorGlow" type="Sprite" parent="."]
+editor/display_folded = true
 scale = Vector2( 2, 2 )
 texture = ExtResource( 3 )
 script = ExtResource( 4 )
