@@ -4,8 +4,11 @@ class_name Shield
 enum {MODE_SHIELD, MODE_BUILD}
 
 const SHIELD_THICKNESS = 30
+const COLOR_SHIELD = Color(70/255.0, 177/255.0, 236/255.0, 214/255.0)
+const COLOR_GOOD = Color(90/255.0, 222/255.0, 47/255.0, 214/255.0)
 
 onready var col_pol : CollisionPolygon2D = get_node("ColPol")
+onready var player_core = get_node("../../../PlayerCore")
 
 var power_in : float = 100.0
 var current_power : float = 0
@@ -31,8 +34,14 @@ func process_build(delta):
 	self.set_global_position(self.get_global_mouse_position())
 	self.rotation = 0
 	
+	if cur_part != null && player_core.can_add_part_at_mouse(cur_part):
+		self.modulate = COLOR_GOOD
+	else:
+		self.modulate = COLOR_SHIELD
+	
 	if cur_part != null && !Input.is_mouse_button_pressed(BUTTON_LEFT):
-		drop_part()
+		if !place_part():
+			drop_part()
 	
 	if current_power < power_in:
 		current_power += power_in * delta * 0.2
@@ -129,13 +138,29 @@ func set_shield_params(radius : float, power : float):
 	
 func set_shield_mode(mode):
 	if mode == MODE_SHIELD:
+		drop_part()
 		cur_mode = MODE_SHIELD
 		self.position = Vector2(0, 0)
 		self.rotation = 0
+		self.modulate = COLOR_SHIELD
 	else:
 		cur_mode = MODE_BUILD
 		self.set_global_position(self.get_global_mouse_position())
 		radius = 64
+		self.modulate = COLOR_SHIELD
+
+func place_part() -> bool:
+	if cur_part == null:
+		return false
+	if !player_core.can_add_part_at_mouse(cur_part):
+		return false
+	
+	for cs in cur_part.collision_shapes:
+		cs.disabled = false
+	self.remove_child(cur_part)
+	player_core.add_part_at_mouse(cur_part)
+	cur_part = null
+	return true
 
 func drop_part():
 	if cur_part == null:

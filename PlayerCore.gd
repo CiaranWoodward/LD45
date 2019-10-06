@@ -22,16 +22,6 @@ func _ready():
 	mGlobal.game_shield = mShield
 
 func _process(delta):
-	if Input.is_action_just_pressed("item_select"):
-		var mousepos : Vector2 = self.get_local_mouse_position()
-		var part = preload("res://Storage.tscn").instance()
-		mousepos.x += 32
-		mousepos = mousepos / 64
-		mousepos.x = floor(mousepos.x)
-		mousepos.y = floor(mousepos.y)
-		if can_add_part(part, mousepos):
-			add_part(part, mousepos)
-	
 	if Input.is_action_just_pressed("toggle_build"):
 		if build_mode:
 			mShield.current_power = 0
@@ -64,6 +54,10 @@ func can_add_part(part, mapCoords : Vector2) -> bool:
 	#Tile is already connected
 	if connected_tiles.has(mapCoords):
 		return false
+		
+	#Blocked tile is filled
+	if "blocked_tile" in part && connected_tiles.has(mapCoords + part.blocked_tile):
+		return false
 	
 	#Tile has no valid neighbor
 	var direction = Vector2(1, 0)
@@ -77,6 +71,25 @@ func can_add_part(part, mapCoords : Vector2) -> bool:
 		return false
 	
 	return true
+
+func can_add_part_at_mouse(part) -> bool:
+	var mousepos : Vector2 = self.get_local_mouse_position()
+	mousepos.x += 32
+	mousepos = mousepos / 64
+	mousepos = mousepos.floor()
+	if can_add_part(part, mousepos):
+		return true
+	return false
+
+func add_part_at_mouse(part) -> bool:
+	var mousepos : Vector2 = self.get_local_mouse_position()
+	mousepos.x += 32
+	mousepos = mousepos / 64
+	mousepos = mousepos.floor()
+	if can_add_part(part, mousepos):
+		add_part(part, mousepos)
+		return true
+	return false
 
 func add_part(part, mapCoords : Vector2) -> void:
 	var targetCoords = mapCoords * 64
