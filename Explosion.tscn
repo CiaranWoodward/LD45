@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Explosion.gd" type="Script" id=1]
 [ext_resource path="res://sprites/explosion2.png" type="Texture" id=2]
 [ext_resource path="res://sprites/explosion1.png" type="Texture" id=3]
+[ext_resource path="res://sounds/explode.wav" type="AudioStream" id=4]
 
 [sub_resource type="Gradient" id=5]
 colors = PoolColorArray( 1, 1, 1, 1, 0.780392, 0.447059, 0.447059, 0.0235294 )
@@ -75,3 +76,7 @@ speed_scale = 2.0
 explosiveness = 1.0
 process_material = SubResource( 4 )
 texture = ExtResource( 3 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -6.691

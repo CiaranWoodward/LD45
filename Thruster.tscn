@@ -45,6 +45,7 @@ gravity_scale = 0.0
 linear_damp = 0.05
 angular_damp = 0.01
 script = ExtResource( 1 )
+thrust = 6.0
 rotational_power = 1000.0
 
 [node name="ThrustBody" type="Sprite" parent="."]
