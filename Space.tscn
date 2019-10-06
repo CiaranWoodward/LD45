@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Space.gd" type="Script" id=1]
 [ext_resource path="res://PlayerCore.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://AnimatedSprite.gd" type="Script" id=11]
 [ext_resource path="res://Core.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Reactor.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Thruster.tscn" type="PackedScene" id=14]
 
 [sub_resource type="PhysicsMaterial" id=1]
 
@@ -51,7 +52,7 @@ __meta__ = {
 scale = Vector2( 2, 2 )
 frames = SubResource( 2 )
 animation = "Breathing"
-frame = 4
+frame = 2
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCore"]
@@ -87,3 +88,6 @@ position = Vector2( 357.44, 106.835 )
 
 [node name="Reactor" parent="." instance=ExtResource( 13 )]
 position = Vector2( 184.171, 103.971 )
+
+[node name="Thruster" parent="." instance=ExtResource( 14 )]
+position = Vector2( 640.047, 165.979 )

@@ -11,11 +11,17 @@ func _start_tween():
 	mTween.start()
 
 func _on_tween_completed(object, key):
+	if(!get_parent().is_connected):
+		return
+
 	if Input.is_action_pressed("shoot"):
 		tween_values.invert()
 		_start_tween()
 
 func _process(delta):
+	if(!get_parent().is_connected):
+		return
+		
 	if Input.is_action_just_pressed("shoot"):
 		mTween.stop_all()
 		mTween.interpolate_property(self, "modulate", self.modulate, tween_values[1], rand_range(0.2, 0.4), Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)

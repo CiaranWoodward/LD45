@@ -8,18 +8,29 @@ var thrust_power : float = 0.0
 var rotational_power : float = 100.0
 var storage_space : int = 50
 
+var build_mode : bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var thruster = preload("res://Thruster.tscn").instance()
-	var thruster2 = preload("res://Thruster.tscn").instance()
-	var storage = preload("res://Storage.tscn").instance()
-	var gun = preload("res://Gun.tscn").instance()
-	add_part(thruster, Vector2(0, 1))
-	add_part(gun, Vector2(-1, 1))
-	add_part(thruster2, Vector2(-1, 2))
-	add_part(storage, Vector2(1, 1))
-	add_part(preload("res://Storage.tscn").instance(), Vector2(0, -2))
-	add_part(preload("res://Thruster.tscn").instance(), Vector2(1, 2))
+	add_part(preload("res://Core.tscn").instance(), Vector2(0, 1))
+
+func _process(delta):
+	if Input.is_action_just_pressed("item_select"):
+		var mousepos : Vector2 = self.get_local_mouse_position()
+		mousepos.x += 32
+		mousepos = mousepos / 64
+		mousepos.x = floor(mousepos.x)
+		mousepos.y = floor(mousepos.y)
+		add_part(preload("res://Storage.tscn").instance(), mousepos)
+	
+	if Input.is_action_just_pressed("toggle_build"):
+		if build_mode:
+			mShield.current_power = 0
+			build_mode = false
+			mShield.visible = true
+		else:
+			build_mode = true
+			mShield.visible = false
 
 # Called every tick at a constant rate. 'delta' is the elapsed time since the previous tick (fixed).
 func _physics_process(delta : float):
@@ -44,6 +55,8 @@ func add_part(part, mapCoords : Vector2) -> void:
 		self.rotational_power += part.rotational_power
 	if "storage_space" in part:
 		self.storage_space += part.storage_space
+	if "is_connected" in part:
+		part.is_connected = true
 	part.map_coords = mapCoords
 		
 	part.set_global_position(targetCoords)
