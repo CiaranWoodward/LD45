@@ -9,6 +9,7 @@ const COLOR_GOOD = Color(90/255.0, 222/255.0, 47/255.0, 214/255.0)
 
 onready var col_pol : CollisionPolygon2D = get_node("ColPol")
 onready var player_core = get_node("../../../PlayerCore")
+onready var cooldown = get_node("Cooldown")
 
 var power_in : float = 100.0
 var current_power : float = 0
@@ -43,7 +44,7 @@ func process_build(delta):
 		if !place_part():
 			drop_part()
 	
-	if current_power < power_in:
+	if current_power < power_in && cooldown.is_stopped():
 		current_power += power_in * delta * 0.2
 		
 	if current_power > power_in:
@@ -65,7 +66,7 @@ func process_shield(delta):
 	var angle = self.get_angle_to(self.get_global_mouse_position())
 	self.rotate(angle)
 	
-	if current_power < power_in:
+	if current_power < power_in && cooldown.is_stopped():
 		current_power += power_in * delta * 0.2
 		
 	if current_power > power_in:
@@ -186,3 +187,10 @@ func part_picked(part):
 		self.add_child(cur_part)
 		cur_part.position = Vector2(0,0)
 		cur_part.rotation = 0
+
+func damage(damage : float, health_src : float, body_shape : int) -> float:
+	current_power -= damage
+	if current_power < 0:
+		current_power = 0
+		cooldown.start()
+	return health_src + 1

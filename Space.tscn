@@ -73,11 +73,9 @@ current = true
 smoothing_enabled = true
 
 [node name="RootNode" type="Node2D" parent="PlayerCore"]
-editor/display_folded = true
 position = Vector2( 0, 32 )
 
 [node name="Shield" type="StaticBody2D" parent="PlayerCore/RootNode"]
-editor/display_folded = true
 modulate = Color( 0.27451, 0.694118, 0.92549, 0.839216 )
 z_index = 1
 collision_layer = 2
@@ -86,6 +84,9 @@ physics_material_override = SubResource( 5 )
 script = ExtResource( 8 )
 
 [node name="ColPol" type="CollisionPolygon2D" parent="PlayerCore/RootNode/Shield"]
+
+[node name="Cooldown" type="Timer" parent="PlayerCore/RootNode/Shield"]
+one_shot = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 modulate = Color( 1, 1, 1, 0.380392 )
