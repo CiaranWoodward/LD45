@@ -40,8 +40,9 @@ func _on_PartsCountdown_timeout():
 			2: newPart = preload("res://Gun.tscn").instance()
 			3: newPart = preload("res://Reactor.tscn").instance()
 		spawnedObject.append(newPart)
-		self.add_child(newPart)
+		self.add_child(newPart, true)
 		newPart.position = spawnpoint + Vector2(rand_range(-100, 100), rand_range(-100, 100))
+		newPart.rotation = rand_range(-PI, PI)
 
 
 func _on_MeteorCountdown_timeout():
@@ -57,5 +58,5 @@ func _on_MeteorCountdown_timeout():
 			0: newMet = preload("res://Meteor1.tscn").instance()
 			1: newMet = preload("res://Meteor2.tscn").instance()
 		spawnedObject.append(newMet)
-		self.add_child(newMet)
 		newMet.position = spawnpoint + Vector2(rand_range(-200, 200), rand_range(-200, 200))
+		self.add_child(newMet, true)

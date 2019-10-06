@@ -14,7 +14,7 @@ var dead : bool = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	self.angular_velocity = rand_range(-2, 2)
-	var dir_to_player = self.get_global_position().direction_to(mGlobal.player_core.get_global_position())
+	var dir_to_player = self.position.direction_to(mGlobal.player_core.position)
 	self.linear_velocity = (dir_to_player * rand_range(200, 270)) + Vector2(rand_range(-20, 20), rand_range(-20, 20))
 	self.connect("body_shape_entered", self, "body_collided")
 
