@@ -1,6 +1,7 @@
 extends Node
 
 var game_shield
+var player_core
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

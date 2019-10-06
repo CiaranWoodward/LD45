@@ -24,6 +24,7 @@ func _ready():
 	mCore = preload("res://Core.tscn").instance()
 	add_part(mCore, Vector2(0, 1))
 	mGlobal.game_shield = mShield
+	mGlobal.player_core = self
 
 func _process(delta):
 	if Input.is_action_just_pressed("toggle_build"):

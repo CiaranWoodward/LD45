@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Space.gd" type="Script" id=1]
 [ext_resource path="res://PlayerCore.gd" type="Script" id=2]
@@ -15,6 +15,8 @@
 [ext_resource path="res://Reactor.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Thruster.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Storage.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Meteor1.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Meteor2.tscn" type="PackedScene" id=17]
 
 [sub_resource type="PhysicsMaterial" id=1]
 
@@ -54,7 +56,7 @@ __meta__ = {
 scale = Vector2( 2, 2 )
 frames = SubResource( 2 )
 animation = "Breathing"
-frame = 4
+frame = 6
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCore"]
@@ -103,3 +105,10 @@ position = Vector2( 206.07, 339.65 )
 
 [node name="Storage3" parent="." instance=ExtResource( 15 )]
 position = Vector2( 346.166, 345.351 )
+
+[node name="Meteor" parent="." instance=ExtResource( 16 )]
+position = Vector2( 1185.8, 518.451 )
+
+[node name="Meteor2" parent="." instance=ExtResource( 17 )]
+position = Vector2( -224.385, 637.273 )
+mass = 4.0
