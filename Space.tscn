@@ -66,6 +66,7 @@ __meta__ = {
 scale = Vector2( 2, 2 )
 frames = SubResource( 2 )
 animation = "Breathing"
+frame = 4
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCore"]
@@ -80,7 +81,6 @@ smoothing_enabled = true
 position = Vector2( 0, 32 )
 
 [node name="Shield" type="StaticBody2D" parent="PlayerCore/RootNode"]
-editor/display_folded = true
 modulate = Color( 0.27451, 0.694118, 0.92549, 0.839216 )
 z_index = 1
 collision_layer = 2

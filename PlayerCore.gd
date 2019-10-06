@@ -16,7 +16,8 @@ var map_coords : Vector2 = Vector2(0, 0)
 var thrust_power : float = 0.0
 var rotational_power : float = 500.0
 var storage_space : int = 50
-var loot_stored = 0;
+var loot_stored = 0
+var energy = 0
 
 onready var health : float = MAX_HEALTH
 var dead : bool 
@@ -115,6 +116,8 @@ func add_part(part, mapCoords : Vector2) -> void:
 		self.mass += part.mass
 	if "thrust" in part:
 		self.thrust_power += part.thrust
+	if "energy" in part:
+		self.energy += part.energy
 	if "rotational_power" in part:
 		self.rotational_power += part.rotational_power
 	if "storage_space" in part:
@@ -145,6 +148,8 @@ func drop_part(part):
 		self.mass -= part.mass
 	if "thrust" in part:
 		self.thrust_power -= part.thrust
+	if "energy" in part:
+		self.energy -= part.energy
 	if "rotational_power" in part:
 		self.rotational_power -= part.rotational_power
 	if "storage_space" in part:
@@ -185,7 +190,7 @@ func _input_event(viewport, event, shape_idx):
 
 func update_shield():
 	var shield_radius = get_furthest_part()
-	mShield.set_shield_params(shield_radius, 100)
+	mShield.set_shield_params(shield_radius, energy)
 
 func drop_unconnected_nodes():
 	#First set all of the is_connected_check values to false

@@ -11,7 +11,7 @@ onready var col_pol : CollisionPolygon2D = get_node("ColPol")
 onready var player_core = get_node("../../../PlayerCore")
 onready var cooldown = get_node("Cooldown")
 
-var power_in : float = 100.0
+var power_in : float = 0.0
 var current_power : float = 0
 var radius : float = 45.0
 var seg_count : int = 0
