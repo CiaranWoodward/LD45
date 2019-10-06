@@ -63,6 +63,17 @@ func can_add_part(part, mapCoords : Vector2) -> bool:
 	if connected_tiles.has(mapCoords):
 		return false
 	
+	#Tile has no valid neighbor
+	var direction = Vector2(1, 0)
+	var connected = false
+	for i in range(4):
+		if connected_tiles.has(mapCoords + direction):
+			connected = true
+			break
+		direction = direction.rotated(PI/2).round()
+	if !connected:
+		return false
+	
 	return true
 
 func add_part(part, mapCoords : Vector2) -> void:
