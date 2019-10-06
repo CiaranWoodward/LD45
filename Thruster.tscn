@@ -41,6 +41,8 @@ extents = Vector2( 27.8271, 42.3598 )
 [node name="Thruster" type="RigidBody2D"]
 input_pickable = true
 gravity_scale = 0.0
+linear_damp = 0.05
+angular_damp = 0.01
 script = ExtResource( 1 )
 rotational_power = 500.0
 
