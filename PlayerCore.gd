@@ -32,6 +32,12 @@ func _ready():
 	add_part(mCore, Vector2(0, 1))
 	mGlobal.game_shield = mShield
 	mGlobal.player_core = self
+	update_string()
+
+func update_string():
+	var desc_string = "Loot Collected: %d/%d\nCockpit Health: %d/%d\nCore Health: %d/%d"
+	desc_string = desc_string % [loot_stored, storage_space, health, MAX_HEALTH, mCore.health, mCore.MAX_HEALTH]
+	get_node("../CanvasLayer/Panel/ScorePanel").set_text(desc_string)
 
 func _process(delta):
 	if(dead):
@@ -122,6 +128,7 @@ func add_part(part, mapCoords : Vector2) -> void:
 		self.rotational_power += part.rotational_power
 	if "storage_space" in part:
 		self.storage_space += part.storage_space
+		update_string()
 	if "is_connected" in part:
 		part.is_connected = true
 	if "blocked_tile" in part:
@@ -154,6 +161,9 @@ func drop_part(part):
 		self.rotational_power -= part.rotational_power
 	if "storage_space" in part:
 		self.storage_space -= part.storage_space
+		if storage_space < loot_stored:
+			loot_stored = storage_space
+		update_string()
 	if "is_connected" in part:
 		part.is_connected = false
 	if "blocked_tile" in part:
@@ -241,6 +251,7 @@ func damage(damage : float, health_src : float, body_shape : int) -> float:
 		if ch is CollisionShape2D:
 			if body_shape == id_count:
 				if "original_parent" in ch:
+					update_string()
 					return ch.original_parent.damage(damage, health_src, 0)
 				break
 			id_count += 1
@@ -249,6 +260,7 @@ func damage(damage : float, health_src : float, body_shape : int) -> float:
 	if health < 0:
 		health = 0
 	self.modulate = Color(1.0, health/(MAX_HEALTH), health/(MAX_HEALTH))
+	update_string()
 	if health <= 0:
 		die()
 		return damage - health
@@ -265,4 +277,5 @@ func _on_Pickup_area_entered(area):
 	var loot = area.get_node("LootSprite")
 	if loot_stored < storage_space && is_instance_valid(loot):
 		loot_stored += loot.collect()
+		update_string()
 		print("loot: " + str(loot_stored))

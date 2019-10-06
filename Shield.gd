@@ -91,7 +91,8 @@ func _draw():
 	var angle_from = angle_center - (angle_span/2)
 	var angle_to = angle_center + (angle_span/2)
 	
-	build_collision_mesh(angle_from, angle_to)
+	if cur_mode == MODE_SHIELD:
+		build_collision_mesh(angle_from, angle_to)
 	for ang in range(angle_from, angle_to, 10):
 		draw_circle_arc_thick(ang, ang+10)
 
@@ -144,11 +145,13 @@ func set_shield_mode(mode):
 		self.position = Vector2(0, 0)
 		self.rotation = 0
 		self.modulate = COLOR_SHIELD
+		col_pol.disabled = false
 	else:
 		cur_mode = MODE_BUILD
 		self.set_global_position(self.get_global_mouse_position())
 		radius = 64
 		self.modulate = COLOR_SHIELD
+		col_pol.disabled = true
 
 func place_part() -> bool:
 	if cur_part == null:
