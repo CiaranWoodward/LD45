@@ -25,13 +25,16 @@ func _process(delta):
 	if(!is_connected):
 		return
 		
+	var host_node = get_node("../..")
+	if host_node.dead:
+		return
+		
 	if Input.is_action_pressed("shoot") && mCooldown.is_stopped():
 		mCooldown.wait_time = rand_range(0.4, 0.6)
 		mCooldown.start()
 		mFlash.flash()
 		mSound.pitch_scale = rand_range(0.8, 1.2)
 		mSound.play()
-		var host_node = get_node("../..")
 		var bullet = preload("res://Bullet.tscn").instance()
 		get_tree().get_root().add_child(bullet)
 		bullet.set_global_position(mMuzzle.get_global_position())

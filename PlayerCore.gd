@@ -269,6 +269,8 @@ func damage(damage : float, health_src : float, body_shape : int) -> float:
 func die():
 	dead = true
 	mShield.visible = false
+	# Put shield in build mode so it doesn't block the destruction :P
+	mShield.set_shield_mode(mShield.MODE_BUILD)
 	get_node("AnimatedSprite").playing = false
 	get_node("AnimatedSprite").frame = 0
 	print("Game over")
