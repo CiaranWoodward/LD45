@@ -259,7 +259,7 @@ func damage(damage : float, health_src : float, body_shape : int) -> float:
 	health -= damage
 	if health < 0:
 		health = 0
-	self.modulate = Color(1.0, health/(MAX_HEALTH), health/(MAX_HEALTH))
+	get_node("AnimatedSprite").modulate = Color(1.0, health/(MAX_HEALTH), health/(MAX_HEALTH))
 	update_string()
 	if health <= 0:
 		die()
