@@ -9,6 +9,9 @@ var difficulty : float = 0
 var spawnedObject = []
 onready var mPlayerCore = get_node("PlayerCore")
 
+# Initial wait before bombarding the player
+var learning_countdown : int = 5
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
@@ -30,7 +33,7 @@ func _on_PartsCountdown_timeout():
 		dirVec = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized()
 	else:
 		dirVec = mPlayerCore.linear_velocity.normalized()
-	spawnpoint += dirVec * ProjectSettings.get_setting("display/window/size/width") * 1.2
+	spawnpoint += dirVec * ProjectSettings.get_setting("display/window/size/width") * 1.6
 	for i in range(numParts):
 		var part_type = randi() % 4
 		var newPart
@@ -46,12 +49,16 @@ func _on_PartsCountdown_timeout():
 
 
 func _on_MeteorCountdown_timeout():
+	if learning_countdown > 0:
+		learning_countdown -= 1
+		return
+	
 	print("spawned meteors")
 	var numMeteors = randi() % 2 + 1
 	for i in range(numMeteors):
 		var spawnpoint = mPlayerCore.position
 		var dirVec : Vector2 = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized()
-		spawnpoint += dirVec * ProjectSettings.get_setting("display/window/size/width") * 1.3
+		spawnpoint += dirVec * ProjectSettings.get_setting("display/window/size/width") * 1.4
 		var metType = randi() % 2
 		var newMet
 		match(metType):
